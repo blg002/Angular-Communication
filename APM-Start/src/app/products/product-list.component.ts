@@ -9,7 +9,7 @@ import { ProductService } from './product.service';
 })
 export class ProductListComponent implements OnInit {
     pageTitle: string = 'Product List';
-    listFilter: string;
+    private _listFilter: string;
     showImage: boolean;
 
     imageWidth: number = 50;
@@ -21,6 +21,15 @@ export class ProductListComponent implements OnInit {
 
     constructor(private productService: ProductService) { }
 
+    get listFilter(): string {
+      return this._listFilter;
+    }
+
+    set listFilter(value: string) {
+      this._listFilter = value;
+      this.performFilter(this.listFilter);
+    }
+
     ngOnInit(): void {
         this.productService.getProducts().subscribe(
             (products: IProduct[]) => {
@@ -30,11 +39,6 @@ export class ProductListComponent implements OnInit {
             (error: any) => this.errorMessage = <any>error
         );
     }
-
-    onFilterChange(filter: string): void {
-      this.listFilter = filter;
-      this.performFilter(this.listFilter);
-    };
 
     toggleImage(): void {
         this.showImage = !this.showImage;
