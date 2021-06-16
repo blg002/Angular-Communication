@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 import { IProduct } from './product';
 import { ProductService } from './product.service';
@@ -18,7 +19,23 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     errorMessage: string;
 
     @ViewChild('filterElement') filterElementRef: ElementRef;
-    @ViewChild(NgModel) filterInput: NgModel;
+    private _filterInput: NgModel;
+    private _sub: Subscription;
+
+    get filterInput(): NgModel {
+      return this._filterInput;
+    }
+
+    @ViewChild(NgModel)
+    set filterInput(value: NgModel) {
+      this._filterInput = value;
+      if (this.filterInput && !this._sub) {
+        this.filterInput.valueChanges.subscribe(
+          () => this.performFilter(this.listFilter)
+        );
+      }
+      this.filterElementRef && this.filterElementRef.nativeElement.focus();
+    }
 
     filteredProducts: IProduct[];
     products: IProduct[];
@@ -26,10 +43,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     constructor(private productService: ProductService) {}
 
     ngAfterViewInit(): void {
-      this.filterInput.valueChanges.subscribe(
-        () => this.performFilter(this.listFilter)
-      );
-      this.filterElementRef.nativeElement.focus();
+      // this.filterInput.valueChanges.subscribe(
+      //   () => this.performFilter(this.listFilter)
+      // );
+      // this.filterElementRef.nativeElement.focus();
     }
 
     ngOnInit(): void {
