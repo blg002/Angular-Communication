@@ -10,6 +10,10 @@
             <div class='col-md-4'>
                 <input type='text' [(ngModel)]='listFilter' #filterElement>
             </div>
+            <div class='col-md-2'>Filter name:</div>
+            <div class='col-md-4'>
+                <input type='text' [(ngModel)]='filterName' #nameElement>
+            </div>
         </div>
         <div class='row' [hidden]='!listFilter'>
             <div class='col-md-10'>
