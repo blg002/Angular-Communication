@@ -3,6 +3,7 @@ import { NgModel } from '@angular/forms';
 import { CriteriaComponent } from '../shared/criteria/criteria.component';
 
 import { IProduct } from './product';
+import { ProductParameterService } from './product-parameter.service';
 import { ProductService } from './product.service';
 
 @Component({
@@ -11,7 +12,6 @@ import { ProductService } from './product.service';
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
     pageTitle: string = 'Product List';
-    showImage: boolean;
 
     includeDetail: boolean = true;
     @ViewChild(CriteriaComponent) filterCriteria: CriteriaComponent;
@@ -26,7 +26,18 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     filteredProducts: IProduct[];
     products: IProduct[];
 
-    constructor(private productService: ProductService) {}
+    get showImage(): boolean {
+      return this.productParameterService.showImage;
+    }
+
+    set showImage(value: boolean) {
+      this.productParameterService.showImage = value;
+    }
+
+    constructor(
+      private productService: ProductService,
+      private productParameterService: ProductParameterService,
+    ) {}
 
     ngAfterViewInit(): void {
       this.parentListFilter = this.filterCriteria.listFilter;
