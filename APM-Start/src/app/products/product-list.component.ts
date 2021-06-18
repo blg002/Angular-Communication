@@ -21,8 +21,6 @@ export class ProductListComponent implements OnInit {
     imageMargin: number = 2;
     errorMessage: string;
     
-    @ViewChild(NgModel) filterInput: NgModel;
-    
     filteredProducts: IProduct[];
     products: IProduct[];
 
