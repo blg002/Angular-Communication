@@ -12,6 +12,7 @@ import { ProductService } from './product.service';
 export class ProductListComponent implements OnInit, AfterViewInit {
     pageTitle: string = 'Product List';
     showImage: boolean;
+
     includeDetail: boolean = true;
     @ViewChild(CriteriaComponent) filterCriteria: CriteriaComponent;
     parentListFilter: string;
@@ -43,6 +44,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
     toggleImage(): void {
         this.showImage = !this.showImage;
+    }
+
+    onValueChange(value: string): void {
+      this.performFilter(value);
     }
 
     performFilter(filterBy?: string): void {
